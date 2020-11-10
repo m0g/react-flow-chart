@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
-import { v4 } from 'uuid'
-import { IConfig, IOnCanvasClick, IOnCanvasDrop, IOnDeleteKey, IOnDragCanvas, IOnDragCanvasStop, IOnZoomCanvas, REACT_FLOW_CHART } from '../../'
+import { IConfig, IOnCanvasClick, IOnCanvasDrop, IOnDeleteKey, IOnDragCanvas, IOnDragCanvasStop, IOnZoomCanvas } from '../../'
 import CanvasContext from './CanvasContext'
 import { ICanvasInnerDefaultProps } from './CanvasInner.default'
 import { ICanvasOuterDefaultProps } from './CanvasOuter.default'
@@ -77,10 +76,10 @@ export class CanvasWrapper extends React.Component<ICanvasWrapperProps, IState> 
       children,
       onCanvasClick,
       onDeleteKey,
-      onCanvasDrop,
+      //onCanvasDrop,
       onZoomCanvas,
     } = this.props
-    const { offsetX, offsetY } = this.state
+    //const { offsetX, offsetY } = this.state
     const { zoom } = config
 
     const options = {
@@ -133,24 +132,7 @@ export class CanvasWrapper extends React.Component<ICanvasWrapperProps, IState> 
                     onDeleteKey({ config })
                   }
                 }}
-                onDrop={(e) => {
-                  const data = JSON.parse(
-                    e.dataTransfer.getData(REACT_FLOW_CHART),
-                  )
-                  if (data) {
-                    const relativeClientX = e.clientX - offsetX
-                    const relativeClientY = e.clientY - offsetY
-                    onCanvasDrop({
-                      config,
-                      data,
-                      position: {
-                        x: relativeClientX / scale - position.x / scale,
-                        y: relativeClientY / scale - position.y / scale,
-                      },
-                      id: data.id || v4(),
-                    })
-                  }
-                }}
+                onDrop={e => console.log(e)}
                 onDragOver={(e) => e.preventDefault()}
               />
             </TransformComponent>
